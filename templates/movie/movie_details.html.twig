@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ movie.title }} - FlixNow{% endblock %}
+
+{% block body %}
+<div class="movie-details">
+    <h1>{{ movie.title }}</h1>
+    <div class="movie-info">
+        <img src="{{ movie.poster_path }}" alt="{{ movie.title }} Poster" class="img-fluid" style="max-width: 200px;"/>
+        <div>
+            <h3>Description</h3>
+            <p>{{ movie.description }}</p>
+
+            <h3>Details</h3>
+            <ul>
+                <li><strong>Release Date:</strong> {{ movie.release_date }}</li>
+                <li><strong>Genre:</strong> {{ movie.genres|join(', ') }}</li>
+                <li><strong>Rating:</strong> {{ movie.rating }}/10</li>
+            </ul>
+
+            <button class="btn btn-primary" onclick="openVideoModal('{{ movie.trailer_url }}')">Watch Trailer</button>
+        </div>
+    </div>
+
+    <h3>Rate this Movie</h3>
+    <div class="rating">
+        <form action="{{ path('rate_movie', { 'id': movie.id }) }}" method="POST">
+            <input type="number" name="rating" min="1" max="5" required>
+            <button type="submit" class="btn btn-success">Submit Rating</button>
+        </form>
+    </div>
+</div>
+
+{# Modal for watching the trailer #}
+<div class="modal" id="videoModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Watch Trailer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <iframe id="trailerFrame" width="100%" height="315" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+    function openVideoModal(trailerUrl) {
+        const modal = document.getElementById('videoModal');
+        const trailerFrame = document.getElementById('trailerFrame');
+        
+        // Set the trailer URL and open the modal
+        trailerFrame.src = trailerUrl;
+        $(modal).modal('show');
+
+        // Close modal and reset the video when finished
+        $(modal).on('hidden.bs.modal', function () {
+            trailerFrame.src = '';
+        });
+    }
+</script>
+{% endblock %}

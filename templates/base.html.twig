@@ -1,0 +1,32 @@
+<!-- templates/base.html.twig -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+    <title>{% block title %}FlixNow{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <h1>FlixNow</h1>
+        <nav>
+            <ul>
+                {% for genre in genres %}
+                    <li><a href="#" data-genre-id="{{ genre.id }}">{{ genre.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 FlixNow</p>
+    </footer>
+
+    <script src="{{ asset('build/app.js') }}"></script>
+</body>
+</html>

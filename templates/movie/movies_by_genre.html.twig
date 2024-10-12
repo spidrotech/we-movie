@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Films{% endblock %}
+
+{% block body %}
+    <h2>Films dans ce genre</h2>
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <a href="#" class="movie-item" data-movie-id="{{ movie.id }}">{{ movie.title }}</a>
+                <p>{{ movie.overview }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {# Popup pour les détails du film #}
+    <div id="movie-modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="movie-details"></div>
+        </div>
+    </div>
+{% endblock %}

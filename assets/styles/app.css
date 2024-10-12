@@ -1,0 +1,226 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+h2 {
+    color: #444;
+    margin-bottom: 20px;
+}
+
+aside {
+    padding: 20px;
+    border-right: 1px solid #ddd;
+}
+
+.list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.list-group-item:hover {
+    background-color: #e2e2e2;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    border-radius: 5px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.genre-item {
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.genre-item:hover {
+    background-color: #cce5ff;
+}
+
+.movies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.movies-container .card {
+    width: 20%; /* Adjust the card width as needed */
+    margin-bottom: 20px;
+}
+
+
+body {
+    background-color: #121212; /* Dark background for body */
+    color: #ffffff; /* Light text color */
+    font-family: 'Arial', sans-serif; /* Font family */
+}
+
+h2,
+h4 {
+    color: #e0e0e0; /* Light color for headings */
+}
+
+.list-group-item {
+    background-color: #1e1e1e; /* Dark background for list items */
+    color: #ffffff; /* Light text color for list items */
+    border: none; /* No border for list items */
+}
+
+.list-group-item a {
+    color: #ffffff; /* Light color for links */
+    text-decoration: none; /* Remove underline */
+}
+
+.list-group-item:hover {
+    background-color: #2a2a2a; /* Slightly lighter on hover */
+}
+
+.card {
+    background-color: #1e1e1e; /* Dark background for cards */
+    border: none; /* Remove card borders */
+    transition: transform 0.3s, box-shadow 0.3s; /* Transition for effects */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Scale effect on hover */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Increased shadow on hover */
+}
+
+.movie-poster {
+    display: block;
+    transition: opacity 0.5s ease;
+    border-top-left-radius: 8px; /* Rounded corners for images */
+    border-top-right-radius: 8px; /* Rounded corners for images */
+}
+
+.movie-details {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    border-radius: 8px; /* Rounded corners for details */
+    padding: 15px; /* Padding for details */
+}
+
+.card:hover .movie-poster {
+    opacity: 0; /* Hide poster on hover */
+}
+
+.card:hover .movie-details {
+    opacity: 1; /* Show details on hover */
+}
+
+.modal-content {
+    background-color: #1e1e1e; /* Dark background for modal */
+    color: #ffffff; /* Light text color for modal */
+    border-radius: 8px; /* Rounded corners for modal */
+    border: none; /* Remove border */
+    text-align: center;
+}
+
+.modal-header,
+.modal-footer {
+    border-color: #2a2a2a; /* Dark border for modal header/footer */
+}
+
+.btn-primary {
+    background-color: #6200ea; /* Custom primary button color */
+    border-color: #6200ea; /* Custom border color */
+    border-radius: 5px; /* Rounded corners for buttons */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition */
+}
+
+.btn-primary:hover {
+    background-color: #3700b3; /* Darker on hover */
+    border-color: #3700b3; /* Darker border on hover */
+    transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 576px) {
+    .card {
+        margin-bottom: 15px; /* Margin for small screens */
+    }
+}
+
+/* Styles for the trailer modal */
+#trailerModal iframe {
+    width: 100%; /* Full width for video */
+    height: 400px; /* Set a fixed height for video */
+}
+
+.trailer-shadow {
+    height: 100px;
+    position: relative;
+    background: black;
+    box-shadow: 0px -55px 29px 0px rgba(0,0,0,0.69);
+    -webkit-box-shadow: 0px -55px 29px 0px rgba(0,0,0,0.69);
+    -moz-box-shadow: 0px -55px 29px 0px rgba(0,0,0,0.69);
+}
+
+#autocomplete-results {
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+#autocomplete-results .list-group-item {
+    cursor: pointer;
+}
+
+#autocomplete-results .list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
