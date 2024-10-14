@@ -12,12 +12,14 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <li class="list-group-item">
-                <a href="{{ path('home') }}">🏠 Home</a>
-            </li>
-            <div class="search-container">
-                <input type="text" id="movie-search" class="form-control" placeholder="Search for a movie...">
-                <div id="autocomplete-results" class="list-group"></div>
+            <div class="header">
+                <div class="homepage">
+                    <a href="{{ path('home') }}" class="home-link">🏠 We Movies</a>
+                </div>
+                <div class="search-container">
+                    <input type="text" id="movie-search" class="form-control" placeholder="Chercher un film...">
+                    <div id="autocomplete-results" class="list-group"></div>
+                </div>
             </div>
 
             <aside class="col-md-2">
@@ -49,13 +51,13 @@
                     </div>                    
                     <div id="movies-container" class="row">
                         {% for movie in bestMovies %}
-                            <div class="col-md-4 mb-4">
+                            <div class="col-md-2 mb-2">
                                 <div class="card">
                                     <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" class="card-img-top movie-poster" alt="{{ movie.title }}">
                                     <div class="movie-details">
                                         <h5>{{ movie.title }}</h5>
-                                        <p>{{ movie.overview }}</p>
-                                        <button class="btn btn-primary movie-button view-details" data-movie-id="{{ movie.id }}">View Details</button>
+                                        <p>{{ movie.overview|length > 100 ? movie.overview|slice(0, 100) ~ '...' : movie.overview }}</p>
+                                        <button class="btn btn-primary movie-button view-details" data-movie-id="{{ movie.id }}">Lire le détails</button>
                                     </div>
                                 </div>
                             </div>
@@ -71,18 +73,26 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
+                    <p><h4 id="movie-title"></h4></p>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <h4 id="movie-title"></h4>
                     <img id="movie-poster" class="img-fluid mb-3" src="" alt="">
-                    <p><strong>Overview:</strong> <span id="movie-overview"></span></p>
-                    <p><strong>Release Date:</strong> <span id="movie-release-date"></span></p>
-                    <p><strong>Rating:</strong> <span id="movie-rating"></span></p>
+                    <p><strong>Description:</strong> <span id="movie-overview"></span></p>
+                    <p><strong>Date de sortie:</strong> <span id="movie-release-date"></span></p>
+                    <p><strong>Note:</strong> <span id="movie-rating"></span></p>
                     <p><strong>Genres:</strong> <span id="movie-genres"></span></p>
+                    <input type="hidden" id="movie-id" value="">
+                    <div class="rating">
+                        <span class="star" data-value="1">&#9733;</span>
+                        <span class="star" data-value="2">&#9733;</span>
+                        <span class="star" data-value="3">&#9733;</span>
+                        <span class="star" data-value="4">&#9733;</span>
+                        <span class="star" data-value="5">&#9733;</span>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>

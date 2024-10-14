@@ -224,3 +224,70 @@ h4 {
 .card:hover {
     transform: scale(1.05);
 }
+
+/* Header styles */
+.header {
+    display: flex;                /* Use Flexbox for layout */
+    justify-content: space-between; /* Space between items */
+    align-items: center;         /* Center items vertically */
+    padding: 10px 20px;         /* Add some padding */
+    background-color: #f8f9fa;  /* Light background color */
+    border-bottom: 1px solid #dee2e6; /* Subtle border at the bottom */
+}
+
+/* Home link styles */
+.home-link {
+    text-decoration: none;       /* Remove underline */
+    font-weight: bold;          /* Bold text */
+    color: #007bff;             /* Bootstrap primary color */
+    transition: color 0.3s;     /* Transition for hover effect */
+}
+
+.home-link:hover {
+    color: #0056b3;             /* Darken color on hover */
+}
+
+/* Search container styles */
+.search-container {
+    position: relative;          /* For positioning autocomplete */
+    width: 300px;               /* Fixed width for the search bar */
+}
+
+/* Style the autocomplete results */
+#autocomplete-results {
+    position: absolute;
+    z-index: 1000;              /* Ensure it appears above other elements */
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;      /* Rounded corners */
+    max-height: 200px;
+    overflow-y: auto;           /* Scroll if too many results */
+}
+
+/* Style each autocomplete result item */
+#autocomplete-results .list-group-item {
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#autocomplete-results .list-group-item:hover {
+    background-color: #f1f1f1;  /* Highlight on hover */
+}
+
+.rating {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.star {
+    font-size: 2em;
+    cursor: pointer;
+    color: gray;
+}
+
+.star:hover,
+.star:hover ~ .star,
+.star.selected {
+    color: gold;
+}

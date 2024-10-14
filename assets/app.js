@@ -9,14 +9,18 @@ window.showMovieDetails = function (movieId) {
             // Populate modal with movie details
             document.getElementById('movie-title').textContent = data.title;
             document.getElementById('movie-poster').src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
-
             // Handle overview with a minimum description length
-            let overview = data.overview.length < 50 ? "No detailed overview available." : data.overview;
+            let overview = data.overview.length < 5 ? "No detailed overview available." : data.overview;
             document.getElementById('movie-overview').textContent = overview;
             document.getElementById('movie-release-date').textContent = data.release_date || 'Unknown';
             document.getElementById('movie-rating').textContent = data.vote_average ? `${data.vote_average}/10` : 'No rating';
             document.getElementById('movie-genres').textContent = data.genres ? data.genres.map(genre => genre.name).join(', ') : 'N/A';
-
+            document.getElementById('movie-id').value = data.id ? data.id : movieId;
+            // Reset stars based on the fetched rating
+            const userRating = data.rating || 0;
+            document.querySelectorAll('.star').forEach(star => {
+                star.style.color = (star.getAttribute('data-value') <= userRating) ? 'gold' : 'gray';
+            });
             // Show the modal
             const movieDetailsModal = new bootstrap.Modal(document.getElementById('movieDetailsModal'));
             movieDetailsModal.show();
@@ -31,13 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('movie-search');
     const bestMovieTrailerContainer = document.getElementById('bestMovieTrailer');
 
-    
     // Check if featuredMovieDiv exists before using it
     function displayFeaturedMovie(movie) {
+        const overview = movie.overview.length > 100 ? movie.overview.slice(0, 100) + '...' : movie.overview;
         if (featuredMovieDiv) { // Ensure the featuredMovieDiv exists
             featuredMovieDiv.innerHTML = `
                 <h3>${movie.title}</h3>
-                <p>${movie.overview}</p>
+                <p>${overview}</p>
                 <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}" />
             `;
         } else {
@@ -47,14 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to display movie cards
     function displayMovieCard(movie) {
+        const overview = movie.overview.length > 100 ? movie.overview.slice(0, 100) + '...' : movie.overview;
         const movieCard = `
-            <div class="col-md-4 mb-4">
+            <div class="col-md-2 mb-2">
                 <div class="card">
                     <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top movie-poster" alt="${movie.title}">
                     <div class="movie-details">
                         <h5>${movie.title}</h5>
-                        <p>${movie.overview}</p>
-                        <button class="btn btn-primary movie-button view-details" data-movie-id="${movie.id}">View Details</button>
+                        <p>${overview}</p>
+                        <button class="btn btn-primary movie-button view-details" data-movie-id="${movie.id}">Lire le détails</button>
                     </div>
                 </div>
             </div>`;
@@ -73,62 +78,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (movies.length > 0) {
                     displayFeaturedMovie(movies[0]); // Show the first movie as featured
                 }
-                attachMovieButtonEvents(); // Attach events to new movie buttons
             });
     }
 
-    // Attach event listeners for movie buttons (view details)
+    // Attach event listeners for movie buttons (Lire le détails)
     function attachMovieButtonEvents() {
-        document.querySelectorAll('.view-details').forEach(button => {
-            button.addEventListener('click', () => {
+        moviesContainer.addEventListener('click', (event) => {
+            const button = event.target.closest('.view-details');
+            if (button) {
                 const movieId = button.getAttribute('data-movie-id');
                 showMovieDetails(movieId);
-            });
+            }
         });
     }
 
-    // Delegate the click event to the parent container
-    moviesContainer.addEventListener('click', (event) => {
-        const button = event.target.closest('.view-details');
-        if (button) {
-            const movieId = button.getAttribute('data-movie-id');
-            showMovieDetails(movieId);
-        }
+    // Initial event listener setup
+    genreItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const genreId = item.getAttribute('data-genre-id');
+            const genreName = item.getAttribute('data-genre-name');
+            fetchMoviesByGenre(genreId, genreName);
+        });
     });
 
-    // Attach other event listeners, such as for genre items
-    genreItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const genreId = item.getAttribute('data-genre-id');
-            const genreName = item.getAttribute('data-genre-name');
-            fetchMoviesByGenre(genreId, genreName);
-        });
-    });
-    // Event listeners for genre items
-    genreItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const genreId = item.getAttribute('data-genre-id');
-            const genreName = item.getAttribute('data-genre-name');
-            fetchMoviesByGenre(genreId, genreName);
-        });
-    });
+    attachMovieButtonEvents(); // Attach events for the first time
 
     // Event listener for search input
     searchInput.addEventListener('input', function () {
         const query = searchInput.value.trim();
-
-        if (query.length > 2) { // Start searching after 2 characters
+        if (query.length > 2) { // Start searching at 3 characters
             fetch(`/search/autocomplete?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     moviesContainer.innerHTML = ''; // Clear old movie cards
                     bestMovieTrailerContainer.innerHTML = '';
-
+                    genreTitle.innerHTML = 'Resultats:';
                     if (data.length === 0) {
                         moviesContainer.innerHTML = '<p>No movies found.</p>';
                     } else {
                         data.forEach(movie => displayMovieCard(movie));
-                        attachMovieButtonEvents(); // Attach events to new movie buttons
                     }
                 })
                 .catch(error => {
@@ -138,4 +126,27 @@ document.addEventListener('DOMContentLoaded', () => {
             moviesContainer.innerHTML = ''; // Clear movie cards if query is empty
         }
     });
+
+    document.querySelectorAll('.star').forEach(star => {
+        star.addEventListener('click', function () {
+            const rating = this.getAttribute('data-value');
+            const movieId = document.getElementById('movie-id').value; // Get movieId from hidden input or context
+            fetch('/api/movie/rate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ movieId: movieId, rating: rating })
+            })
+                .then(response => response.text())
+                .then(data => {
+                    console.log(data);
+                    // Update the stars to reflect the new rating
+                    document.querySelectorAll('.star').forEach(s => {
+                        s.style.color = (s.getAttribute('data-value') <= rating) ? 'gold' : 'gray';
+                    });
+                });
+        });
+    });
+
 });
