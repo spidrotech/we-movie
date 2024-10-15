@@ -75,31 +75,33 @@ aside {
 }
 
 .movies-container .card {
-    width: 20%; /* Adjust the card width as needed */
+    width: 20%;
     margin-bottom: 20px;
 }
 
 
 body {
-    background-color: #121212; /* Dark background for body */
-    color: #ffffff; /* Light text color */
-    font-family: 'Arial', sans-serif; /* Font family */
+    background-color: #121212; 
+    color: #ffffff; 
+    font-family: 'Arial', sans-serif;
 }
 
 h2,
 h4 {
-    color: #e0e0e0; /* Light color for headings */
+    color: #e0e0e0;
 }
-
+footer {
+    text-align: center;
+}
 .list-group-item {
-    background-color: #1e1e1e; /* Dark background for list items */
-    color: #ffffff; /* Light text color for list items */
-    border: none; /* No border for list items */
+    background-color: #1e1e1e; 
+    color: #ffffff; 
+    border: none; 
 }
 
 .list-group-item a {
-    color: #ffffff; /* Light color for links */
-    text-decoration: none; /* Remove underline */
+    color: #ffffff; 
+    text-decoration: none;
 }
 
 .list-group-item:hover {
@@ -112,6 +114,7 @@ h4 {
     transition: transform 0.3s, box-shadow 0.3s; /* Transition for effects */
     border-radius: 8px; /* Rounded corners */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Box shadow for depth */
+    min-height: 100%;
 }
 
 .card:hover {

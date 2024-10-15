@@ -1,7 +1,6 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 
-// Add the functions to the window object for global access
 window.showMovieDetails = function (movieId) {
     fetch(`/api/movie/${movieId}`)
         .then(response => response.json())
@@ -10,7 +9,7 @@ window.showMovieDetails = function (movieId) {
             document.getElementById('movie-title').textContent = data.title;
             document.getElementById('movie-poster').src = `https://image.tmdb.org/t/p/w500${data.poster_path}`;
             // Handle overview with a minimum description length
-            let overview = data.overview.length < 5 ? "No detailed overview available." : data.overview;
+            let overview = data.overview.length < 5 ? "Nc" : data.overview;
             document.getElementById('movie-overview').textContent = overview;
             document.getElementById('movie-release-date').textContent = data.release_date || 'Unknown';
             document.getElementById('movie-rating').textContent = data.vote_average ? `${data.vote_average}/10` : 'No rating';
@@ -53,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayMovieCard(movie) {
         const overview = movie.overview.length > 100 ? movie.overview.slice(0, 100) + '...' : movie.overview;
         const movieCard = `
-            <div class="col-md-2 mb-2">
+            <div class="col-md-3 mb-3">
                 <div class="card">
                     <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" class="card-img-top movie-poster" alt="${movie.title}">
                     <div class="movie-details">
@@ -107,14 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('input', function () {
         const query = searchInput.value.trim();
         if (query.length > 2) { // Start searching at 3 characters
-            fetch(`/search/autocomplete?query=${query}`)
+            fetch(`/api/movie/search/autocomplete?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
-                    moviesContainer.innerHTML = ''; // Clear old movie cards
+                    moviesContainer.innerHTML = ''; 
                     bestMovieTrailerContainer.innerHTML = '';
                     genreTitle.innerHTML = 'Resultats:';
                     if (data.length === 0) {
-                        moviesContainer.innerHTML = '<p>No movies found.</p>';
+                        moviesContainer.innerHTML = '<p>Pas de film trouvé.</p>';
                     } else {
                         data.forEach(movie => displayMovieCard(movie));
                     }
@@ -123,14 +122,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Error fetching autocomplete results:', error);
                 });
         } else {
-            moviesContainer.innerHTML = ''; // Clear movie cards if query is empty
+            moviesContainer.innerHTML = ''; 
         }
     });
 
     document.querySelectorAll('.star').forEach(star => {
         star.addEventListener('click', function () {
             const rating = this.getAttribute('data-value');
-            const movieId = document.getElementById('movie-id').value; // Get movieId from hidden input or context
+            const movieId = document.getElementById('movie-id').value; 
             fetch('/api/movie/rate', {
                 method: 'POST',
                 headers: {
@@ -140,10 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
             })
                 .then(response => response.text())
                 .then(data => {
-                    console.log(data);
-                    // Update the stars to reflect the new rating
                     document.querySelectorAll('.star').forEach(s => {
-                        s.style.color = (s.getAttribute('data-value') <= rating) ? 'gold' : 'gray';
+                        s.style.color = (s.getAttribute('data-value') <= rating) ? 'gold' : 'gray'; // TODO: update the css
                     });
                 });
         });

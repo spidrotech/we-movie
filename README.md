@@ -15,7 +15,7 @@ The application utilizes The Movie Database (TMDb) API to fetch movie data and p
 
 - **Frontend**: HTML, CSS, JavaScript, Bootstrap
 - **Backend**: PHP, Symfony
-- **Database**: MySQL (or any other database you are using)
+- **Database**: MySQL
 - **API**: The Movie Database (TMDb) API
 - **Development**: Docker
 
@@ -25,6 +25,7 @@ The application utilizes The Movie Database (TMDb) API to fetch movie data and p
 
 - PHP 8.3 or higher
 - Symfony 6.4
+- Mysql 8.0
 - Composer
 - Docker
 - npm/yarn
@@ -35,11 +36,14 @@ The application utilizes The Movie Database (TMDb) API to fetch movie data and p
 1. Clone the repository:
    ```bash
    git clone https://github.com/spidrotech/we-movie.git
+   ```
+2. Setup: 
+   ```bash
    cd we-movie
    docker compose up --build -d
    yarn encore dev
    ```
-2. Access URL: 
+3. Access URL: 
 http://localhost:8000 
 
 ## Troubleshooting
